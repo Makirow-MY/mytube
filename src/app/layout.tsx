@@ -1,6 +1,7 @@
  import type { Metadata } from "next";
 import { Inter, Poppins, Roboto } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
+import { TRPCReactProvider } from '@/trpc/client';
 import "./globals.css";
 
 const inter = Inter({
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${poppins.className} antialiased`}
       >
-        {children}
+       <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
     </ClerkProvider>
