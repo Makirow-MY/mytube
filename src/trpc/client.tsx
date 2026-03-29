@@ -5,24 +5,22 @@ import type { QueryClient } from '@tanstack/react-query';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import { createTRPCContext } from '@trpc/tanstack-react-query';
+import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
 import { makeQueryClient } from './query-client';
+import superjson from "superjson"
 import type { AppRouter } from './routers/_app';
  
-export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
- 
+//export const { TRPCProvider, useTRPC } = createTRPCContext<AppRouter>();
+ export const trpc = createTRPCReact<AppRouter>();
 let browserQueryClient: QueryClient;
 function getQueryClient() {
   if (typeof window === 'undefined') {
     // Server: always make a new query client
     return makeQueryClient();
   }
-  // Browser: make a new query client if we don't already have one
-  // This is very important, so we don't re-make a new client if React
-  // suspends during the initial render. This may not be needed if we
-  // have a suspense boundary BELOW the creation of the query client
-  if (!browserQueryClient) browserQueryClient = makeQueryClient();
-  return browserQueryClient;
+ // if (!browserQueryClient) browserQueryClient = makeQueryClient();
+  return (browserQueryClient ??= makeQueryClient());
 }
  
 function getUrl() {
@@ -34,7 +32,7 @@ function getUrl() {
   return `${base}/api/trpc`;
 }
  
-export function TRPCReactProvider(
+export function TRPCProvider(
   props: Readonly<{
     children: React.ReactNode;
   }>,
@@ -46,21 +44,26 @@ export function TRPCReactProvider(
   const queryClient = getQueryClient();
  
   const [trpcClient] = useState(() =>
-    createTRPCClient<AppRouter>({
+   trpc.createClient({
       links: [
         httpBatchLink({
-          // transformer: superjson, <-- if you use a data transformer
+        transformer: superjson,
           url: getUrl(),
+          async headers() {
+            const headers = new Headers()
+            headers.set("x-trpc-source", "nextjs-react")
+            return  headers;
+          }
         }),
-      ],
+      ],  
     }),
   );
  
   return (
-    <QueryClientProvider client={queryClient}>
-      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-        {props.children}
-      </TRPCProvider>
-    </QueryClientProvider>
+     <trpc.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            {props.children}
+        </QueryClientProvider>
+    </trpc.Provider>
   );
 }

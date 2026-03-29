@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { FlameIcon, HistoryIcon, HomeIcon, ListVideoIcon, PlaySquareIcon, ThumbsUpIcon } from "lucide-react";
 import Link from "next/link";
 import {useClerk, useAuth} from "@clerk/nextjs";
@@ -33,11 +33,14 @@ export const   PersonalSection = () => {
     
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>You</SidebarGroupLabel> 
+            <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+  You
+</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
 
                          {items.map((item) => (
+                             <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                     tooltip={item.title}
                     asChild
@@ -54,6 +57,8 @@ export const   PersonalSection = () => {
                             <span className="text-sm">{item.title}</span>
                         </Link>
                     </SidebarMenuButton>
+                    </SidebarMenuItem>
+
                 ))}
 
                 </SidebarMenu>

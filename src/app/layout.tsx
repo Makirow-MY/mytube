@@ -1,8 +1,10 @@
  import type { Metadata } from "next";
 import { Inter, Poppins, Roboto } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
-import { TRPCReactProvider } from '@/trpc/client';
+import { TRPCProvider } from '@/trpc/client';
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+
 
 const inter = Inter({
  subsets: ["latin"],
@@ -28,9 +30,11 @@ export default function RootLayout({
       <ClerkProvider afterSignOutUrl={"/"} >
     <html lang="en">
       <body
-        className={`${inter.className} ${poppins.className} antialiased`}
+        className={`${inter.className}  antialiased`}
       >
-       <TRPCReactProvider>{children}</TRPCReactProvider>
+       <TRPCProvider>
+        <Toaster />
+        {children}</TRPCProvider>
       </body>
     </html>
     </ClerkProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton } from "@/components/ui/sidebar";
+import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { FlameIcon, HomeIcon, PlaySquareIcon } from "lucide-react";
 import Link from "next/link";
 import {useClerk, useAuth} from "@clerk/nextjs";
@@ -35,10 +35,11 @@ export const MainSection = () => {
                 <SidebarMenu>
 
                          {items.map((item) => (
+                            <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                     tooltip={item.title}
                     asChild
-                    key={item.title}
+                    key={item.title}                     
                     isActive={false} // change to look on pathname
                     onClick={(e) => {
                         if(item.auth && !isSignedIn){
@@ -52,6 +53,7 @@ export const MainSection = () => {
                             <span className="text-sm">{item.title}</span>
                         </Link>
                     </SidebarMenuButton>
+                   </SidebarMenuItem>
                 ))}
 
                 </SidebarMenu>

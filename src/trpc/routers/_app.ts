@@ -1,18 +1,17 @@
-import { z } from 'zod';
-import { baseProcedure, createTRPCRouter } from '../init';
+//import { CategoriesRouter } from '@/modules/categories/server/procedures';
+import { CategoriesRouter } from '@/modules/categories/server/procedures';
+import { protectedProcedure, createTRPCRouter } from '../init';
+import { studioRouter } from '@/modules/studio/server/procedures';
+import { videosRouter } from '@/modules/videos/server/procedures';
+import { videosViewsRouter } from '@/modules/video-views/server/procedures';
+import { videosReactionsRouter } from '@/modules/video-reactions/server/procedures';
  
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  categories: CategoriesRouter,
+  studio: studioRouter,
+  videos: videosRouter,
+  videoReactions: videosReactionsRouter,
+  videoViews: videosViewsRouter,
 });
  
 // export type definition of API

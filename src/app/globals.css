@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Hide Next.js error overlay completely in dev mode */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
