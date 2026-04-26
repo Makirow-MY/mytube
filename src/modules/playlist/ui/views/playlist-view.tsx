@@ -3,7 +3,6 @@ import { CategoriesSection } from "@/modules/search/ui/sections/categories-secti
 import { HistorySection } from "../sections/history-section"
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
-import { PlayListCreateModal } from "../components/playlist-generate-modal";
 import { useState } from "react";
 import { PlayListSection } from "../sections/playlist-section";
 
