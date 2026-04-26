@@ -5,6 +5,7 @@ import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
 
+// The correct export names based on react-resizable-panels v2+
 const ResizablePanelGroup = ({
   className,
   ...props
