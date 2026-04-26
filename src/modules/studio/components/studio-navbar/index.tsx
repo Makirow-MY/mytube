@@ -12,10 +12,10 @@ export  function StudioNavbar() {
      <div className="flex items-center gap-4 w-full">
         <div className='flex items-center flex-shrink-0'>
                <SidebarTrigger />
-               <Link href="/studio" className='flex p-4 items-center gap-2'>
+               <a href="/studio" className='flex p-4 items-center gap-2'>
                     <Image loading='lazy' src='/logo.svg' alt='logo' width={32} height={32} /> 
                     <p className='text-xl font-semibold tracking-tight'>Studio</p>
-               </Link>
+               </a>
         </div>
 
 <div className='flex-1'/>

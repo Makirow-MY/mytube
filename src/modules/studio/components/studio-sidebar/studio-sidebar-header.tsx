@@ -15,7 +15,7 @@ export const StudioSidebarHeader = () => {
      
 const {user} = useUser();
 const {state} = useSidebar();
-     console.log("my user", user)
+    // console.log("my user", user)
 
      if(!user) return(
         <SidebarHeader className="flex justify-center items-center pb-4" >
@@ -31,12 +31,12 @@ const {state} = useSidebar();
        return (
          <SidebarMenuItem>
                    <SidebarMenuButton    tooltip={"Your Profile"} asChild>
-                         <Link href={"/users/current"} >
+                         <a href={"/users/current"} >
                           <UserAvatar imageUrl={`${user?.imageUrl}`} name={user?.fullName || user?.username || "User"    } 
                          size={"xs"}
                           />
                           <span className="text-sm">Your Profile</span>
-                        </Link>
+                        </a>
                    </SidebarMenuButton>
        </SidebarMenuItem>
        )  
@@ -45,11 +45,11 @@ const {state} = useSidebar();
     return (
        
                     <SidebarHeader className="flex justify-center items-center pb-4">
-                        <Link href={"/users/current"} >
+                        <a href={"/users/current"} >
                           <UserAvatar imageUrl={`${user?.imageUrl}`} name={user?.fullName || user?.username || "User"    } 
                           className="size-[112px] object-cover hover:opacity-80 transition-opacity"
                           />
-                        </Link>
+                        </a>
                         <div className="flex flex-col items-center ggap-y-2 mt-2">
                             <p className="text-xs font-medium">Your Profile</p>
                             <p className="text-sm capitalize font-bold text-muted-foreground">{user?.fullName}</p>

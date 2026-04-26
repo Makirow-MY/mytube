@@ -5,8 +5,10 @@ import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react'
 import React from 'react'
 import { VideoGetOneOutput } from '../../types'
 import { useClerk } from '@clerk/nextjs'
-import { trpc } from '@/trpc/client'
+import { useTRPC } from '@/trpc/client'
 import { toast } from 'sonner'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { DEFAULT_LIMIT } from '@/constants'
 
 interface VideoReactionsProps {
     videoId: string;
@@ -17,30 +19,61 @@ interface VideoReactionsProps {
 
 export function VideoReactions({ videoId, likes, dislikes, viewerReaction }: VideoReactionsProps) {
  const clerk = useClerk()
- const utils = trpc.useUtils();
- const like  = trpc.videoReactions.like.useMutation({
-    onSuccess() {
-        utils.videos.getOne.invalidate({id: videoId})
-    },
-    onError(error) {
-      toast.error("An error occurred while processing your reaction. Please try again.") 
+ const trpc = useTRPC();
+    const queryClient = useQueryClient();
+ 
+     const like = useMutation(
+          trpc.videoReactions.like.mutationOptions({
+            onSuccess: () => {
+              queryClient.invalidateQueries({
+                queryKey: trpc.playList.getLike.queryKey({ limit: DEFAULT_LIMIT }),
+              });
+                  queryClient.invalidateQueries({
+                queryKey: trpc.videos.getOne.queryKey({id: videoId}),
+              });
+               
+            toast.success("Video liked successfully")
+             
+            },
+                onError(error) {
       if(error.data?.code === "UNAUTHORIZED") {
         clerk.openSignIn()
+        toast.error("You must sign in to like this video.")
+      }
+      else{
+        toast.error("An error occurred while processing your reaction. Please try again.")
       }
      }
-  })
+          })
+        ); 
 
-   const dislike  = trpc.videoReactions.dislike.useMutation({
-    onSuccess() {
-        utils.videos.getOne.invalidate({id: videoId})
-    },
-    onError(error) {
-      toast.error("An error occurred while processing your reaction. Please try again.") 
+
+
+   const dislike = useMutation(
+          trpc.videoReactions.dislike.mutationOptions({
+            onSuccess: () => {
+              queryClient.invalidateQueries({
+                queryKey: trpc.playList.getLike.queryKey({ limit: DEFAULT_LIMIT }),
+              });
+                  queryClient.invalidateQueries({
+                queryKey: trpc.videos.getOne.queryKey({id: videoId}),
+              });
+               
+            toast.success("Video disliked successfully")
+             
+            },
+               onError(error) {
       if(error.data?.code === "UNAUTHORIZED") {
         clerk.openSignIn()
+        toast.error("You must sign in to dislike this video.")
       }
+        else{
+        toast.error("An error occurred while processing your reaction. Please try again.")            
+        }
      }
-  })
+          })
+        ); 
+      
   
   return (
     <div className='flex items-center  flex-none'>

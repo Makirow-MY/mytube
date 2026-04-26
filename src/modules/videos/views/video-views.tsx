@@ -8,10 +8,11 @@ import { CommentsPageSection } from "../sections/comments-section";
 
 interface VideoPageViewProps {
     videoId: string;
+    playlistId?: string;
 }
 
 
-export const VideoPageView = ({videoId}: VideoPageViewProps) => {
+export const VideoPageView = ({videoId, playlistId}: VideoPageViewProps) => {
   return (
     <div className="max-w-[1700px] mx-auto mb-10 px-4 pt-2.5 flex flex-col">
   
@@ -19,12 +20,12 @@ export const VideoPageView = ({videoId}: VideoPageViewProps) => {
      <div className="flex-1 min-w-0">
           <VideoPageSection videoId={videoId} />
           <div className="lg:hidden block mt-4">
-           <SuggestionPageSection videoId={videoId} />
+           <SuggestionPageSection isManual={true} videoId={videoId} />
           </div>
           <CommentsPageSection videoId={videoId} />
      </div>
-          <div className="hidden lg:block w-full lg:w-[300px] xl:w-[450px] shrink-1">
-           <SuggestionPageSection videoId={videoId} />
+          <div className="hidden lg:block w-full lg:w-[350px] xl:w-[450px] shrink-1">
+           <SuggestionPageSection playlistId={playlistId} videoId={videoId} />
           </div>
    </div>
        

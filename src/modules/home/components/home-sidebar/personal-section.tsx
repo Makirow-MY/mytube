@@ -8,19 +8,19 @@ import {useClerk, useAuth} from "@clerk/nextjs";
 const items = [
     {
         title:  "History",
-        url: "/playlists/history",
+        url: "/playlist/history",
         icon: HistoryIcon,
         auth:true,
     },
     {
         title:  "Liked Videos",
-        url: "/playlists/liked",
+        url: "/playlist/liked",
         icon: ThumbsUpIcon,
         auth: true,
     },
     {
         title:  "All Playlists",
-        url: "/playlists",
+        url: "/playlist",
         icon: ListVideoIcon,
         auth: true,
     },
@@ -52,10 +52,10 @@ export const   PersonalSection = () => {
                           return clerk.openSignIn();
                         }}} // add navigation logic here
                     > 
-                        <Link href={item.url} className="flex items-center gap-4">
+                        <a href={item.url} className="flex items-center gap-4">
                             <item.icon className="size-5" />
                             <span className="text-sm">{item.title}</span>
-                        </Link>
+                        </a>
                     </SidebarMenuButton>
                     </SidebarMenuItem>
 

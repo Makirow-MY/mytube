@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { videos } from "@/db/schema";
+import { comments, users, videos, videosReactions, videosViews } from "@/db/schema";
 import {z} from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { eq, and, or, lt, desc } from "drizzle-orm";
+import { eq, and, or, lt, desc, getTableColumns, inArray, count } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const studioRouter = createTRPCRouter({
@@ -14,7 +14,11 @@ export const studioRouter = createTRPCRouter({
         const {id: userId} = ctx.user;
         const {id} = input
 
-            
+            if (!userId) {
+                    throw new TRPCError({ code: "UNAUTHORIZED", message: "Missing User Id, Try Signing In Again" });
+
+                }
+
         const [video]  = await db.select().from(videos)
         .where(and(
             eq(videos.id, id),
@@ -41,9 +45,42 @@ export const studioRouter = createTRPCRouter({
        
         const {cursor, limit } = input;
         const {id: userId} = ctx.user;
+if (!userId) {
+                    throw new TRPCError({ code: "UNAUTHORIZED", message: "Missing User Id, Try Signing In Again" });
 
-        const data = await db.select().from(videos)
-        .where(and(
+                }
+                const viewerReactions = db.$with("viewer_reactions").as(
+                        db.select({
+                            videoId: videosReactions.videoId,
+                            type: videosReactions.type,
+                        }).from(videosReactions)
+                            .where(inArray(videosReactions.userId, userId ? [userId] : []))
+                    );
+
+        const data = await db
+        .with(viewerReactions)
+        .select(
+            {
+                ...getTableColumns(videos),
+                CommentCount: db.$count(comments, and(
+                                        eq(comments.videoId, videos.id),
+                                        
+                                    )),
+                viewCount: db.$count(videosViews, eq(videosViews.videoId, videos.id)),
+                                    likeCount: db.$count(videosReactions,
+                                        and(
+                                            eq(videosReactions.videoId, videos.id),
+                                            eq(videosReactions.type, "like")
+                                        )),
+                                    dislikeCount: db.$count(videosReactions, and(
+                                        eq(videosReactions.videoId, videos.id),
+                                        eq(videosReactions.type, "dislike")
+                                    )),
+                                    viewerReaction: viewerReactions.type
+            }
+        ).from(videos)
+        .leftJoin(viewerReactions, eq(viewerReactions.videoId, videos.id))
+            .where(and(
             eq(videos.userId, userId),
             cursor ? or(
                 lt(videos.updatedAt, cursor.updatedAt),
@@ -65,6 +102,7 @@ export const studioRouter = createTRPCRouter({
         } : null;
         return {
             items,
+           
             nextCursor,
         };
     })

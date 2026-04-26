@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:all": "concurrently \"bun run dev:webhook\" \"bun run dev\" \"bunx drizzle-kit studio\" ",
+    "dev:all": "concurrently \"bun run dev:webhook\" \"bun run dev\"",
     "dev:webhook": "ngrok http --url=trippant-lenora-hemipodan.ngrok-free.dev 3000",
     "dev": "next dev",
     "build": "next build",
@@ -80,6 +80,7 @@
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.7.4",
+    "use-debounce": "^10.1.1",
     "vaul": "^1.1.2",
     "zod": "^4.3.6"
   },

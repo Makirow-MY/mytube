@@ -16,13 +16,6 @@ interface VideoTopRowProps{
 export const VideoTopRow = ({video}: VideoTopRowProps) => {
 
     const compctViews = useMemo (() => {
-        // if(video.views >= 1000000) {
-        //     return (video.views / 1000000).toFixed(1) + "M"
-        // } else if (video.views >= 1000) {
-        //     return (video.views / 1000).toFixed(1) + "K"
-        // } else {
-        //     return video.views.toString()
-        // }
         return new Intl.NumberFormat("en", {
             notation: "compact",
          //   compactDisplay: "short"
@@ -38,14 +31,7 @@ export const VideoTopRow = ({video}: VideoTopRowProps) => {
     }, [video.createdAt]) 
 
      const expandedViews = useMemo (() => {
-        // if(video.views >= 1000000) {
-        //     return (video.views / 1000000).toFixed(1) + "M"
-        // } else if (video.views >= 1000) {
-        //     return (video.views / 1000).toFixed(1) + "K"
-        // } else {
-        //     return video.views.toString()
-        // }
-        return new Intl.NumberFormat("en", {
+          return new Intl.NumberFormat("en", {
             notation: "standard",
           //  compactDisplay: "short"
         }).format(video.viewCount)

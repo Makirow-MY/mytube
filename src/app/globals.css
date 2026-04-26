@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* Hide Next.js error overlay completely in dev mode */
 nextjs-portal,
 [data-nextjs-toast],
@@ -10,6 +11,20 @@ nextjs-portal,
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }
 
 @layer base {
@@ -48,6 +63,7 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
     --sidebar-background: 0 0% 98%;
   }
+
   .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
@@ -88,6 +104,7 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

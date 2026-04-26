@@ -3,6 +3,7 @@ import React from 'react';
 import { MainSection } from './main-section';
 import { Separator } from '@/components/ui/separator';
 import { PersonalSection } from './personal-section';
+import { SubscriptionsSection } from './subscription-sections';
 
 export function HomeSidebar() {
   return (
@@ -13,6 +14,7 @@ export function HomeSidebar() {
     >
       <SidebarContent className="bg-background">
         <MainSection />
+        <SubscriptionsSection />
         <Separator />
         <PersonalSection />
       </SidebarContent>

@@ -1,7 +1,9 @@
 
 import { ResponsiveModal } from "@/components/responsive-dialog";
+import { DEFAULT_LIMIT } from "@/constants";
 import { UploadDropzone } from "@/lib/uploadthing";
-import { trpc } from "@/trpc/client";
+import { useTRPC } from "@/trpc/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ThumbnailUploadModalProps {
     videoId: string;
@@ -14,14 +16,19 @@ export const ThumbnailUploadModal = ({
 open,
 onOpenChange
 }: ThumbnailUploadModalProps) =>{
-
-    const utils = trpc.useUtils();
+ const trpc = useTRPC();
+   const queryClient = useQueryClient();
+ 
 
     const onUploadComplete = () =>{
         onOpenChange(false);
-        utils.studio.getMany.invalidate()
-        utils.studio.getOne.invalidate({id: videoId})        
-    
+        queryClient.invalidateQueries({
+        queryKey: trpc.studio.getMany.queryKey({ limit: DEFAULT_LIMIT }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: trpc.studio.getOne.queryKey({id: videoId}),
+      });
+
         
     }
 

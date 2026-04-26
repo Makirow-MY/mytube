@@ -22,19 +22,19 @@ export function StudioSidebar() {
                  <Separator />
               <SidebarMenuItem>
             <SidebarMenuButton isActive={pathname === "/studio"} tooltip={"My Content"} asChild>
-                  <Link href={"/studio"}>
+                  <a href={"/studio"}>
                       <VideoIcon className="size-5" />
                       <span className="text-sm">Content</span>
-                  </Link>
+                  </a>
             </SidebarMenuButton>
            </SidebarMenuItem>
 
             <SidebarMenuItem>
             <SidebarMenuButton tooltip={"Exit Studio"} asChild>
-                  <Link href={"/"}>
+                  <a href={"/"}>
                       <LogOutIcon className="size-5" />
                       <span>Exit Studio </span>
-                  </Link>
+                  </a>
             </SidebarMenuButton>
            </SidebarMenuItem>
 

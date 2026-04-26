@@ -1,34 +1,35 @@
 "use client";
 
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { FlameIcon, HomeIcon, PlaySquareIcon } from "lucide-react";
+import { FlameIcon, HomeIcon, PlaySquareIcon, ZapIcon } from "lucide-react";
 import Link from "next/link";
 import {useClerk, useAuth} from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 const items = [
     {
         title:  "Home",
         url: "/",
         icon: HomeIcon,
     },
+    
     {
+        title:  "Shorts",
+        url: "/shorts",
+        icon: ZapIcon ,
+    },
+   {
         title:  "Subscriptions",
         url: "/feed/subscriptions",
         icon: PlaySquareIcon,
         auth: true,
     },
-    {
-        title:  "Trending",
-        url: "/feed/trending",
-        icon: FlameIcon,
-    },
-
 ]
 
 export const MainSection = () => {
     const clerk = useClerk();
     const {isSignedIn} = useAuth();
 
-     
+      const pathname = usePathname()
     return (
         <SidebarGroup>
             <SidebarGroupContent>
@@ -40,7 +41,7 @@ export const MainSection = () => {
                     tooltip={item.title}
                     asChild
                     key={item.title}                     
-                    isActive={false} // change to look on pathname
+                    isActive={ pathname  === item.url} // change to look on pathname
                     onClick={(e) => {
                         if(item.auth && !isSignedIn){
                             e.preventDefault();
@@ -48,10 +49,10 @@ export const MainSection = () => {
                         }
                     }} // add navigation logic here
                     > 
-                        <Link href={item.url} className="flex items-center gap-4">
+                        <a href={item.url} className="flex items-center gap-4">
                             <item.icon className="size-5" />
                             <span className="text-sm">{item.title}</span>
-                        </Link>
+                        </a>
                     </SidebarMenuButton>
                    </SidebarMenuItem>
                 ))}

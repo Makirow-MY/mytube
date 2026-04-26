@@ -1,7 +1,7 @@
  import type { Metadata } from "next";
 import { Inter, Poppins, Roboto } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
-import { TRPCProvider } from '@/trpc/client';
+import { TRPCReactProvider } from '@/trpc/client';
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -32,9 +32,9 @@ export default function RootLayout({
       <body
         className={`${inter.className}  antialiased`}
       >
-       <TRPCProvider>
+       <TRPCReactProvider>
         <Toaster />
-        {children}</TRPCProvider>
+        {children}</TRPCReactProvider>
       </body>
     </html>
     </ClerkProvider>

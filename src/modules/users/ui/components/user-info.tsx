@@ -30,9 +30,7 @@ export const UserInfo = ({
  size,
 
 }: UserInfoProps) =>{
-    console.log({name,
- className,
- size,})
+
     return(
         <div className={cn(userInfoVaraint({size, className}))}>
               <Tooltip>
@@ -40,11 +38,13 @@ export const UserInfo = ({
                         <p className="text-gray-500 line-clamp-1 hover:text-gray-800">
                               {name}
                         </p>
-                        <TooltipContent align="center" className="bg-black/70">
+                       
+                 </TooltipTrigger>
+                  <TooltipContent align="center" className="bg-black/70">
                                 <p>{name}</p>
                         </TooltipContent>
-                 </TooltipTrigger>
               </Tooltip>
+
         </div>
     )
 } 

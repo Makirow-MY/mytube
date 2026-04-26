@@ -12,10 +12,10 @@ export  function HomeNavbar() {
      <div className="flex items-center gap-4 w-full">
         <div className='flex items-center flex-shrink-0'>
                <SidebarTrigger />
-               <Link href="/" className='flex p-4 items-center gap-2'>
+               <a href="/" className='flex p-4 items-center gap-2'>
                     <Image src='/logo.svg' alt='logo' width={32} height={32} /> 
                     <p className='text-xl font-semibold tracking-tight'>GodTube</p>
-               </Link>
+               </a>
         </div>
 
         <div className='flex-1 flex justify-center max-w-[720px] mx-auto'>

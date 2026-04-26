@@ -47,7 +47,7 @@ useEffect(()=>{
     } 
 )  
 }, [api])
-    console.log("rendering filter carousel with value:", isLoading, value);
+   // console.log("rendering filter carousel with value:", isLoading, value);
   return (
     <div className="relative w-full">
         <div 
@@ -71,7 +71,9 @@ useEffect(()=>{
             variant={!value ? "default" : "secondary"}
             onClick={() => onSelect(null)}
             className="rounded-lg px-3 py-1 cursor-pointer text-sm whitespace-nowrap"
-            >All</Badge>
+            > <a href={`/`} className="w-full h-full">
+                  All
+                </a> </Badge>
           </CarouselItem>)}
 
             {
@@ -92,9 +94,9 @@ useEffect(()=>{
                   className="rounded-lg px-3 py-1 cursor-pointer text-sm whitespace-nowrap"
            
                 >
-                    <Link href={`/?categoryId=${item.value}`} className="w-full h-full">
+                    <a href={`/?categoryId=${item.value}`} className="w-full h-full">
                   {item.label}
-                </Link>
+                </a>
                 </Badge>
               </CarouselItem>
             ))}
