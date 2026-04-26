@@ -196,12 +196,13 @@ export const POST = async (request: Request) => {
             }
 
 
-            const tempThumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg`
-            const tempPreviewUrl = `https://image.mux.com/${playbackId}/animated.gif`
-            const duration = data.duration ? Math.round(data.duration * 1000) : 0
+            
 
             const [video] = await db.select().from(videos).where(eq(videos.muxUploadId, data.upload_id));
 
+            const tempThumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg`
+            const tempPreviewUrl = `https://image.mux.com/${playbackId}/animated.gif`
+            const duration = data.duration ? Math.round(data.duration * 1000) : 0
 
             if (!video) {
                 return new Response("Video not found", {
